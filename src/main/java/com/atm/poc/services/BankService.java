@@ -10,7 +10,7 @@ import com.atm.poc.services.interfaces.IBankService;
 
 @Service
 public class BankService implements IBankService {
-	private Map<Integer, Currency> _currency;
+	private Map<Integer, Currency> _money;
 	private int _totalFunds = 0;
 
 	public BankService() {
@@ -27,34 +27,39 @@ public class BankService implements IBankService {
 	public int getTotalFunds() {
 		return this._totalFunds;
 	}
+	
+	@Override
+	public Map<Integer, Currency> getAvailableDenominations() {
+		return this._money;
+	}
 
 	// TODO :: Funds needs to be loaded from database.
 	private void initializeFunds() {
-		this._currency = new HashMap<Integer, Currency>();
+		this._money = new HashMap<Integer, Currency>();
 
 		Currency currency = new Currency();
 		currency.setCount(20);
-		this._currency.put(5, currency);
+		this._money.put(5, currency);
 
 		currency = new Currency();
 		currency.setCount(30);
-		this._currency.put(10, currency);
+		this._money.put(10, currency);
 
 		currency = new Currency();
 		currency.setCount(30);
-		this._currency.put(20, currency);
+		this._money.put(20, currency);
 
 		currency = new Currency();
 		currency.setCount(20);
-		this._currency.put(50, currency);
+		this._money.put(50, currency);
 	}
 
 	private int setTotalFunds() {
-		if (this._currency.size() == 0) {
+		if (this._money.size() == 0) {
 			return 0;
 		}
 
-		this._currency.forEach((k, v) -> {
+		this._money.forEach((k, v) -> {
 			_totalFunds = _totalFunds + (k * v.getCount());
 		});
 
