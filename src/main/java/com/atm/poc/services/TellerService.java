@@ -4,89 +4,88 @@ import org.springframework.stereotype.Service;
 
 import com.atm.poc.models.Account;
 import com.atm.poc.services.interfaces.IAccountsService;
+import com.atm.poc.services.interfaces.IBankService;
 import com.atm.poc.services.interfaces.ICashDispenserService;
-import com.atm.poc.services.interfaces.IDisplayService;
+import com.atm.poc.services.interfaces.IPrinterService;
 import com.atm.poc.services.interfaces.ITellerService;
 
 @Service
-public class TellerService implements ITellerService, IDisplayService {
+public class TellerService implements ITellerService, IPrinterService {
 
 	private ICashDispenserService _cashDespenserService;
-	private IDisplayService _displayService;
 	private IAccountsService _accountsService;
+	private IBankService _bankService;
+	private static String invalidAccountMessage = "Invalid credentials or no account exists.";
 
-	public TellerService(ICashDispenserService cashDespenserService, IDisplayService displayService,
-			IAccountsService accountsService) {
+	public TellerService(ICashDispenserService cashDespenserService, IAccountsService accountsService,
+			IBankService bankService) {
 		this._cashDespenserService = cashDespenserService;
-		this._displayService = displayService;
 		this._accountsService = accountsService;
+		this._bankService = bankService;
 	}
 
 	@Override
-	public void validate(Account account) {
+	public String withdraw(String accountNumber, int pinCode, int requestedAmount) {
+
+		Account account = this._accountsService.getAccount(accountNumber, pinCode);
 		if (account == null) {
-			this._displayService.showMessage("No account exists!");
-			return;
+			return "Invalid credentials or account does not exist.";
 		}
 
-		// this._account = account;
+		if (!this.validateAccountBalance(account, requestedAmount)) {
+			return "Insufficient credit";
+		}
+
+		if (!this.validateDenomination(requestedAmount)) {
+			return "Requested amount cannot be processed.";
+		}
+
+		this._bankService.updateAvailabeFunds(requestedAmount);
+		account.withdraw(requestedAmount);
+		this._cashDespenserService.dispense(requestedAmount);
+		this.print("Withdrawal successful.");
+
+		return requestedAmount + " dispensed";
 	}
 
 	@Override
-	public void withdraw(String accountNumber, int amount) {
-
-		Account account = this._accountsService.GetAccountByAccountNumber(accountNumber);
-		if (account == null) {
-			return;
-		}
-		
-		if(!this.validateRequest(account, amount)){
-			return;
-		}		
-
-		account.withdraw(amount);
-		this._cashDespenserService.dispense(amount);
-		this._displayService.showMessage("Withdrawal successful.");
-	}
-
-	@Override
-	public double checkBalance(String accountNumber) {
-		if (accountNumber.isEmpty()) {
-			this._displayService.showMessage("No account exists!");
-			return 0.00;
+	public String checkBalance(String accountNumber, int pinCode) {
+		if (accountNumber.isEmpty() || accountNumber == null) {
+			this.print("No account exists!");
+			return invalidAccountMessage;
 		}
 
-		Account account = this._accountsService.GetAccountByAccountNumber(accountNumber);
+		Account account = this._accountsService.getAccount(accountNumber, pinCode);
 
 		if (account == null) {
-			this._displayService.showMessage("No account exists!");
-			return 0.00;
+			this.print("No account exists!");
+			return invalidAccountMessage;
 		}
 
-		return account.getBalance();
+		return "Available balance is: " + account.getBalance();
 	}
 
 	@Override
-	public void showMessage(String message) {
+	public void print(String message) {
 		// TODO Auto-generated method stub
 	}
-	
-	private boolean validateRequest(Account account, int amount) {
-		if (account.getBalance() < amount) {
-			this._displayService.showMessage("Insufficient credit!");
+
+	private boolean validateAccountBalance(Account account, int requestedAmount) {
+		if (account.getBalance() < requestedAmount) {
+			this.print("Insufficient credit!");
 			return false;
 		}
-		
-		if(!this.validateDenomination(amount)){
-			return false;
-		}
-		
+
 		return true;
 	}
-	
-	private boolean validateDenomination(int amount) {
-		
-		
+
+	private boolean validateDenomination(int requestedAmount) {
+		int availableFunds = this._bankService.getTotalFunds();
+
+		if (availableFunds < requestedAmount) {
+			return false;
+		}
+
 		return true;
 	}
 }

@@ -18,14 +18,13 @@ public class AccountsService implements IAccountsService {
 	}
 
 	@Override
-	public Account GetAccountByAccountNumber(String accountNumber) {
+	public Account getAccount(String accountNumber, int pinCode) {
 		Account account = this._accounts.get(accountNumber);
-
-		if (account == null) {
-			return null;
+		if(account.getPin() == pinCode){
+			return account;
 		}
 
-		return account;
+		return null;
 	}
 
 	// TODO :: Accounts needs to be loaded from database.

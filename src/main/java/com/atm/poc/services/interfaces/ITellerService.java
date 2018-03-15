@@ -1,11 +1,9 @@
 package com.atm.poc.services.interfaces;
 
-import com.atm.poc.models.Account;
 
 public interface ITellerService {
-	void validate(Account account);
 
-	void withdraw(String accountNumber, int amount);
+	public String withdraw(String accountNumber, int pinCode, int amount);
 
-	double checkBalance(String accountNumber);
+	public String checkBalance(String accountNumber, int pinCode);
 }
