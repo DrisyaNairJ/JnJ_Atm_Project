@@ -45,7 +45,7 @@ public class TellerService implements ITellerService, IPrinterService {
 		this._cashDespenserService.dispense(requestedAmount);
 		this.print("Withdrawal successful.");
 
-		return requestedAmount + " dispensed";
+		return requestedAmount + " dispensed. Available balance in your account is " + account.getBalance();
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class TellerService implements ITellerService, IPrinterService {
 			return invalidAccountMessage;
 		}
 
-		return "Available balance is: " + account.getBalance();
+		return "Available balance is " + account.getBalance();
 	}
 
 	@Override
