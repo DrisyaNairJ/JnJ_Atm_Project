@@ -20,7 +20,8 @@ public class AccountsService implements IAccountsService {
 	@Override
 	public Account getAccount(String accountNumber, int pinCode) {
 		Account account = this._accounts.get(accountNumber);
-		if (account.getPin() == pinCode) {
+
+		if (account != null && account.getPin() == pinCode) {
 			return account;
 		}
 
