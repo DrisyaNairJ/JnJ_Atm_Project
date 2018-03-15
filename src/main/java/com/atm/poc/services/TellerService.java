@@ -67,7 +67,7 @@ public class TellerService implements ITellerService, IPrinterService {
 
 	@Override
 	public void print(String message) {
-		// TODO Auto-generated method stub
+		// TODO : can be used for receipt printing.
 	}
 
 	private boolean validateAccountBalance(Account account, int requestedAmount) {

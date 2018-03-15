@@ -21,11 +21,11 @@ public class AccountContoller {
 
 	@Autowired
 	IAccountsService accountsService;
-	
+
 	@Autowired
 	IBankService bankService;
-	
-	public AccountContoller(){
+
+	public AccountContoller() {
 		bankService = new BankService();
 	}
 
