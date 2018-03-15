@@ -1,21 +1,49 @@
 package com.atm.poc.models;
 
 public class Account {
-	
-	
-	private double openingBalance;
+
+	private String accountNumber;
+	private int pin;
+	private double balance;
 	private double overDraft;
-	public double getOpeningBalance() {
-		return openingBalance;
+
+	public int getPin() {
+		return this.pin;
 	}
-	public void setOpeningBalance(double openingBalance) {
-		this.openingBalance = openingBalance;
+
+	public void setPin(int pin) {
+		this.pin = pin;
 	}
+
+	public String getAccountNumber() {
+		return this.accountNumber;
+	}
+
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	public double getBalance() {
+		return this.balance;
+	}
+
+	public void setBalance(double openingBalance) {
+		this.balance = openingBalance;
+	}
+
 	public double getOverDraft() {
-		return overDraft;
+		return this.overDraft;
 	}
+
 	public void setOverDraft(double overDraft) {
 		this.overDraft = overDraft;
 	}
 
+	public void withdraw(int requestedWithdrawal) {
+		this.balance -= requestedWithdrawal;
+	}
+
+	public void credit(int amount) {
+		this.balance += amount;
+	}
 }

@@ -6,23 +6,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.atm.poc.models.Customer;
 import com.atm.poc.services.AuthenticationService;
+import com.atm.poc.services.interfaces.IAuthenticationService;
+import com.atm.poc.services.interfaces.IDisplayService;
 
 @RestController
 @RequestMapping("/api/v1/customer")
 public class CustomerContoller {
-		
-	@RequestMapping(value="/user", method=RequestMethod.GET)
-	public String getUser(){
+
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	public String getUser() {
 		return "Drisya";
-	}	
-	
-	@RequestMapping(value="/validate", method=RequestMethod.GET)
-	public Customer validateCustomer(){
+	}
+
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	public boolean validateCustomer(String accountNumber, int pinCode) {
 		
-		Customer customer = new Customer();
-		customer.setPin(1234);
-		customer.setAccountNumber("123456789");
-		
-		return customer;
+		IAuthenticationService service = new AuthenticationService();
+
+		if (service.Authenticate(accountNumber, pinCode)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

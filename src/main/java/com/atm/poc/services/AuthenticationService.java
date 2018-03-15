@@ -1,8 +1,15 @@
 package com.atm.poc.services;
 
-import com.atm.poc.dao.CustomerProcessDao;
-import com.atm.poc.models.Customer;
+import org.springframework.stereotype.Service;
 
-public class AuthenticationService{
+import com.atm.poc.services.interfaces.IAuthenticationService;
 
+@Service
+public class AuthenticationService implements IAuthenticationService{
+
+	@Override
+	public boolean Authenticate(String accountNumber, int pinCode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
