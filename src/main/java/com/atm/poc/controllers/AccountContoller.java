@@ -1,4 +1,4 @@
-package com.atm.poc.controller;
+package com.atm.poc.controllers;
 
 public class AccountContoller {
 

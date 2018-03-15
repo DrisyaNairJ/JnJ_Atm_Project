@@ -1,4 +1,4 @@
-package com.atm.poc.model;
+package com.atm.poc.models;
 
 public class Account {
 	

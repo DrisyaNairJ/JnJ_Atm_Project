@@ -1,6 +1,6 @@
 package com.atm.poc.dao;
 
-import com.atm.poc.model.Customer;
+import com.atm.poc.models.Customer;
 
 public class CustomerProcessDao {
 	
