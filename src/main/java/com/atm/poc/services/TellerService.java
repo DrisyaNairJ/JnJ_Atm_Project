@@ -33,10 +33,10 @@ public class TellerService implements ITellerService, IPrinterService {
 		}
 
 		if (!this.validateAccountBalance(account, requestedAmount)) {
-			return "Insufficient credit";
+			return "Insufficient credit.";
 		}
 
-		if (!this.validateDenomination(requestedAmount)) {
+		if (!this.validateAvailableFunds(requestedAmount)) {
 			return "Requested amount cannot be processed.";
 		}
 
@@ -79,7 +79,7 @@ public class TellerService implements ITellerService, IPrinterService {
 		return true;
 	}
 
-	private boolean validateDenomination(int requestedAmount) {
+	private boolean validateAvailableFunds(int requestedAmount) {
 		int availableFunds = this._bankService.getTotalFunds();
 
 		if (availableFunds < requestedAmount) {
