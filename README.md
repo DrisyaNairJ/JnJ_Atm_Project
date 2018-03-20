@@ -8,5 +8,6 @@ cash withdrawals.
 
 Input / Output
  The user should be able to request a balance check along with maximum withdrawal amount (if any).
- The user should be able to request a withdrawal and if successful remaining balance will be displayed.
+ The user should be able to request a withdrawal and if successful details of the notes that would be
+dispensed along with remaining balance.
  User should be provided with meaningful error messages.

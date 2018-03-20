@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.atm.poc.models.TellerResponse;
 import com.atm.poc.services.BankService;
+import com.atm.poc.services.CustomExceptionHandler;
 import com.atm.poc.services.TellerService;
 import com.atm.poc.services.interfaces.IAccountsService;
 import com.atm.poc.services.interfaces.IBankService;
@@ -36,7 +38,7 @@ public class AccountContoller {
 	}
 
 	@RequestMapping(value = "/withdraw", method = RequestMethod.POST)
-	public String withdrawAmount(String accountNumber, int pinCode, int requestedAmount) {
+	public TellerResponse withdrawAmount(String accountNumber, int pinCode, int requestedAmount) throws CustomExceptionHandler {
 		ITellerService teller = new TellerService(cashDispenserService, accountsService, bankService);
 		return teller.withdraw(accountNumber, pinCode, requestedAmount);
 	}
